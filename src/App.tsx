@@ -50,7 +50,25 @@ function App() {
         </button>
       </div>
      </header>
-      
+      <div className="container">
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : error ? (
+          <div className="error">{error}</div>
+        ) : (
+          data &&
+          data.map((user: any) => (
+            <Users
+              key={user.ID}
+              id={user.ID}
+              firstNameLastName={user.FirstNameLastName}
+              email={user.Email}
+              phone={user.Phone}
+              company={user.Company}
+              jobTitle={user.JobTitle}
+            />
+        )))}
+        </div>
     </div>
   );
 }
