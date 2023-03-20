@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
-import Users from './components/Users';
+import User from './components/User';
 
 function App() {
   const [data, setData] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const [page, setPage] = useState<number>(0);
-  const [disabled, setDisabled] = useState<boolean>(false);
+  const [prevDisabled, setPrevDisabled] = useState<boolean>(true);
+  const [nextDisabled, setNextDisabled] = useState<boolean>(false);
 
   const previous = () => {
     if (page === 0) {
-      setDisabled(true);
+      setPrevDisabled(true);
     } else {
-      setPage(page - 10);
+      setPage(page - 1);
     }
   };
 
   const next = () => {
-    setPage(page + 10);
+    setPage(page + 1);
+    setPrevDisabled(false);
   };
 
 
@@ -27,9 +29,15 @@ function App() {
     fetch(`https://give-me-users-forever.vercel.app/api/users/${page}/next`)
       .then((res) => res.json())
       .then((data) => {
-        setData(data.users);
+        if (data.users.length === 0) {
+          setNextDisabled(true);
+        } else {
+          setData(data.users);
+          if (page === 0) {
+            setPrevDisabled(true);
+          }
+        }
         setLoading(false);
-        console.log(data.users)
       })
       .catch((err) => {
         setError(err);
@@ -42,10 +50,10 @@ function App() {
      <header>
       <h1>React Task</h1>
       <div className='button-display'>
-        <button onClick={previous} className={` ${disabled || page === 0 ? 'disabled' : ''}`}>
+        <button onClick={previous} disabled={prevDisabled} >
           Previous
         </button>
-        <button onClick={next} className={` ${disabled ? 'disabled' : ''}`}>
+        <button onClick={next} disabled={nextDisabled}>
           Next
         </button>
       </div>
@@ -58,7 +66,7 @@ function App() {
         ) : (
           data &&
           data.map((user: any) => (
-            <Users
+            <User
               key={user.ID}
               id={user.ID}
               firstNameLastName={user.FirstNameLastName}
