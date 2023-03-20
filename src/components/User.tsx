@@ -10,16 +10,20 @@ interface UserProps {
     jobTitle: string;
 }
 
-function User({id, firstNameLastName, email, phone, company, jobTitle }: UserProps) {
+function User({firstNameLastName, email, phone, company, jobTitle }: UserProps) {
 
     return (
     <div>
         <div className="user">
-            <div className="username">{firstNameLastName}</div>
-            <div className="user-email">{email}</div>
-            <div className="user-phone">{phone}</div>
-            <div className="user-company">{company}</div>
-            <div className="user-job">{jobTitle}</div>
+            <div className='left-side'>
+                <h2 className="username">{firstNameLastName}</h2>
+                <h3 className="user-job">{jobTitle}</h3>
+            </div>
+            <div className='right-side'>
+                <p>{company}</p>
+                <p>{email}</p>
+                <p>{phone}</p>
+            </div> 
         </div>
     </div>
   )
