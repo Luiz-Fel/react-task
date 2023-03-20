@@ -11,7 +11,6 @@ interface UserProps {
 }
 
 function User({firstNameLastName, email, phone, company, jobTitle }: UserProps) {
-
     return (
     <div>
         <div className="user">

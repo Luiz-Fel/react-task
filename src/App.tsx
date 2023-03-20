@@ -14,12 +14,12 @@ function App() {
     if (page === 0) {
       setPrevDisabled(true);
     } else {
-      setPage(page - 1);
+      setPage(page - 10);
     }
   };
 
   const next = () => {
-    setPage(page + 1);
+    setPage(page + 10);
     setPrevDisabled(false);
   };
 
@@ -32,7 +32,7 @@ function App() {
         if (data.users.length === 0) {
           setNextDisabled(true);
         } else {
-          setData(data.users);
+          setData(data.users.slice(0, 10));
           if (page === 0) {
             setPrevDisabled(true);
           }
